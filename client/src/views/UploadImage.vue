@@ -37,14 +37,13 @@ export default {
   methods: {
     submitFiles() {
       for (let i = 0; i < this.uploadedFiles.length; i += 1) {
-        console.log(i);
         console.log(`${process.env.VUE_APP_BASE_API_ENDPOINT}/upload-image`);
         this.upload(this.uploadedFiles[i]);
-        this.$refs.fileinput.value = null;
-        this.uploaded = true;
       }
+      this.$refs.fileinput.value = null;
+      this.uploaded = true;
     },
-    async upload(file) {
+    upload(file) {
       const formData = new FormData();
       formData.append('file', file);
       const headers = {
@@ -52,8 +51,7 @@ export default {
       };
       const parameters = {
       };
-      const result = await axios.post(`${process.env.VUE_APP_BASE_API_ENDPOINT}/upload-image`, formData, { headers, parameters });
-      console.log(result.status);
+      axios.post(`${process.env.VUE_APP_BASE_API_ENDPOINT}/upload-image`, formData, { headers, parameters });
     },
 
     FilesUpdated(event) {

@@ -1,6 +1,6 @@
 import os
 from shutil import rmtree
-from flask import Flask, request, current_app, send_from_directory
+from flask import Flask, request, current_app, send_from_directory, abort
 from flask.helpers import url_for
 from flask.json import jsonify
 from flask_cors import CORS
@@ -29,14 +29,6 @@ with app.app_context():
     app.config['PUBLIC_DIR'] = os.path.join(current_app.config['UPLOAD_DIRECTORY'], 'public')
     app.config['USER_DIR'] = os.path.join(current_app.config['UPLOAD_DIRECTORY'], 'users')
 
-
-    @app.route("/query", methods=['GET'])
-    def query():
-        RESULT = [{}, {}]
-        return jsonify({
-            'status': 'success',
-            'courses': RESULT
-        })
 
     @app.route("/catalog", methods=['GET'])
     def get_all_images():
@@ -106,3 +98,6 @@ with app.app_context():
     @app.errorhandler(413)
     def file_too_large(e):
         return "File is too large", 413
+
+if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0')
